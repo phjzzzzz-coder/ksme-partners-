@@ -165,6 +165,11 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    .case-filter { padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border); background: var(--bg); color: var(--text-muted); transition: all 0.2s; }
+    .case-filter.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .case-card { transition: opacity 0.2s, transform 0.2s; }
+    .case-card.hidden { display: none; }
+
     /* ── PC 기본값은 위 스타일 그대로 유지 ── */
 
     @media (max-width: 640px) {
@@ -520,64 +525,203 @@
 <section id="cases" style="background: var(--bg2);">
   <div class="wrap">
     <div class="section-head">
-      <h2>최근 지원 성공사례</h2>
-      <p>실제 고객분들의 정책자금 수령 사례입니다</p>
+      <h2>지원 성공사례</h2>
+      <p>실제 고객분들의 정책자금·법인설립·벤처인증 성공 사례입니다</p>
     </div>
+
+    <!-- 카테고리 필터 -->
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px; justify-content:center;">
+      <button class="case-filter active" onclick="filterCase(this,'all')">전체</button>
+      <button class="case-filter" onclick="filterCase(this,'fund')">정책자금</button>
+      <button class="case-filter" onclick="filterCase(this,'corp')">법인설립·전환</button>
+      <button class="case-filter" onclick="filterCase(this,'cert')">벤처·각종인증</button>
+    </div>
+
     <div class="cases-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
-      <div class="case-card">
+
+      <!-- 정책자금 사례 -->
+      <div class="case-card" data-cat="fund">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
           <span class="case-tag" style="background:#eef0fb; color:var(--navy);">음식업</span>
           <span style="font-size:12px; color:var(--text-muted);">부산 해운대구</span>
         </div>
         <div class="case-fund">소상공인 시설개선자금</div>
         <div class="case-amount" style="color:var(--navy);">8,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
-        <p class="case-desc">주방 설비 교체 및 매장 전면 리모델링. 매출 40% 증가</p>
+        <p class="case-desc">주방 설비 교체 및 매장 전면 리모델링 완료. 매출 40% 증가</p>
       </div>
-      <div class="case-card">
+
+      <div class="case-card" data-cat="fund">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
           <span class="case-tag" style="background:#f0fdf4; color:#059669;">제조업</span>
           <span style="font-size:12px; color:var(--text-muted);">부산 사상구</span>
         </div>
-        <div class="case-fund" style="background:#f0fdf4; color:#059669;">스마트공장 구축자금</div>
+        <div class="case-fund" style="background:#f0fdf4; color:#059669;">스마트공장 구축자금 (혁신성장촉진)</div>
         <div class="case-amount" style="color:#059669;">2억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
         <p class="case-desc">자동화 설비 도입으로 생산성 60% 향상, 인력 비용 절감</p>
       </div>
-      <div class="case-card">
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-          <span class="case-tag" style="background:#fef3e2; color:var(--gold);">IT·스타트업</span>
-          <span style="font-size:12px; color:var(--text-muted);">부산 센텀시티</span>
-        </div>
-        <div class="case-fund" style="background:#fef3e2; color:var(--gold);">예비창업패키지 창업사업화자금</div>
-        <div class="case-amount" style="color:var(--gold);">5,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
-        <p class="case-desc">AI 물류 플랫폼 개발 자금 확보, 베타 서비스 런칭 성공</p>
-      </div>
-      <div class="case-card">
+
+      <div class="case-card" data-cat="fund">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
           <span class="case-tag" style="background:#fff7ed; color:#c2410c;">건설업</span>
           <span style="font-size:12px; color:var(--text-muted);">부산 강서구</span>
         </div>
         <div class="case-fund" style="background:#fff7ed; color:#c2410c;">중소기업 시설자금</div>
         <div class="case-amount" style="color:#c2410c;">3억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
-        <p class="case-desc">건설장비 구입·야적장 확보, 수주 규모 2배 확대</p>
+        <p class="case-desc">건설장비 구입·야적장 부지 확보, 수주 규모 2배 확대</p>
       </div>
-      <div class="case-card">
+
+      <div class="case-card" data-cat="fund">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-          <span class="case-tag" style="background:#fdf4ff; color:#a21caf;">법인전환</span>
+          <span class="case-tag" style="background:#fef9c3; color:#854d0e;">도소매업</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 남구</span>
+        </div>
+        <div class="case-fund" style="background:#fef9c3; color:#854d0e;">소상공인 경영개선자금</div>
+        <div class="case-amount" style="color:#d97706;">7,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">온라인 쇼핑몰 구축 및 재고 확충. 월매출 3배 성장</p>
+      </div>
+
+      <div class="case-card" data-cat="fund">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#f0f9ff; color:#0369a1;">운송·물류업</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 북구</span>
+        </div>
+        <div class="case-fund" style="background:#f0f9ff; color:#0369a1;">소상공인 운전자금</div>
+        <div class="case-amount" style="color:#0891b2;">1억 2,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">화물차 2대 추가 구입 및 연료비·보험료 운영자금 확보</p>
+      </div>
+
+      <div class="case-card" data-cat="fund">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#fdf4ff; color:#a21caf;">뷰티·미용업</span>
           <span style="font-size:12px; color:var(--text-muted);">부산 동래구</span>
         </div>
-        <div class="case-fund" style="background:#fdf4ff; color:#a21caf;">법인전환 + 혁신성장촉진자금</div>
-        <div class="case-amount" style="color:#a21caf;">1억 5,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
-        <p class="case-desc">개인사업자 법인전환 후 정책자금 즉시 연계, 절세 효과 동시 달성</p>
+        <div class="case-fund" style="background:#fdf4ff; color:#a21caf;">소상공인 창업자금</div>
+        <div class="case-amount" style="color:#a21caf;">4,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">헤어샵 신규 창업 자금 확보. 인테리어·의자·장비 일체 구축</p>
       </div>
-      <div class="case-card">
+
+      <div class="case-card" data-cat="fund">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#ecfdf5; color:#065f46;">농수산·식품업</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 기장군</span>
+        </div>
+        <div class="case-fund" style="background:#ecfdf5; color:#065f46;">농식품 창업성장자금</div>
+        <div class="case-amount" style="color:#059669;">1억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">수산물 가공공장 증설 및 HACCP 인증 취득 비용 지원</p>
+      </div>
+
+      <div class="case-card" data-cat="fund">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#fff1f2; color:#be123c;">의료·헬스케어</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 연제구</span>
+        </div>
+        <div class="case-fund" style="background:#fff1f2; color:#be123c;">중소기업 성장촉진자금</div>
+        <div class="case-amount" style="color:#dc2626;">1억 5,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">물리치료 전문 클리닉 2호점 개원 및 의료장비 도입 완료</p>
+      </div>
+
+      <div class="case-card" data-cat="fund">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#eff6ff; color:#1e40af;">숙박·여행업</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 중구</span>
+        </div>
+        <div class="case-fund" style="background:#eff6ff; color:#1e40af;">긴급경영안정자금</div>
+        <div class="case-amount" style="color:#1d4ed8;">9,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">경영위기 극복 후 게스트하우스 리뉴얼. 외국인 관광객 유치 확대</p>
+      </div>
+
+      <div class="case-card" data-cat="fund">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#f0fdf4; color:#166534;">교육업</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 수영구</span>
+        </div>
+        <div class="case-fund" style="background:#f0fdf4; color:#166534;">소상공인 재도전특별자금</div>
+        <div class="case-amount" style="color:#16a34a;">6,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">코로나 폐업 후 재창업. 학원 인테리어·교재·강사 인건비 지원</p>
+      </div>
+
+      <!-- 법인설립·전환 사례 -->
+      <div class="case-card" data-cat="corp">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#fdf4ff; color:#7c3aed;">법인전환</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 동래구</span>
+        </div>
+        <div class="case-fund" style="background:#fdf4ff; color:#7c3aed;">법인전환 + 혁신성장촉진자금</div>
+        <div class="case-amount" style="color:#7c3aed;">1억 5,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">개인사업자 법인전환 후 정책자금 즉시 연계. 절세 효과 동시 달성</p>
+      </div>
+
+      <div class="case-card" data-cat="corp">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#fdf4ff; color:#7c3aed;">법인설립</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 부산진구</span>
+        </div>
+        <div class="case-fund" style="background:#fdf4ff; color:#7c3aed;">법인설립 + 소공인특화자금</div>
+        <div class="case-amount" style="color:#7c3aed;">1억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">개인 봉제업 법인 전환 후 소공인 전용 자금 연계. 신용한도 3배 확대</p>
+      </div>
+
+      <div class="case-card" data-cat="corp">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#fdf4ff; color:#7c3aed;">법인전환</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 남구</span>
+        </div>
+        <div class="case-fund" style="background:#fdf4ff; color:#7c3aed;">법인전환 절세 컨설팅</div>
+        <div class="case-amount" style="color:#7c3aed;">연 2,400만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">절세</span></div>
+        <p class="case-desc">매출 12억 도소매 사업자 법인전환으로 법인세·소득세 구조 최적화</p>
+      </div>
+
+      <div class="case-card" data-cat="corp">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#fdf4ff; color:#7c3aed;">법인설립</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 해운대구</span>
+        </div>
+        <div class="case-fund" style="background:#fdf4ff; color:#7c3aed;">법인설립 + 청년고용연계자금</div>
+        <div class="case-amount" style="color:#7c3aed;">7,000만원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">IT 스타트업 법인 설립 후 청년 고용 연계 자금 즉시 신청·수령</p>
+      </div>
+
+      <!-- 벤처인증 사례 -->
+      <div class="case-card" data-cat="cert">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
           <span class="case-tag" style="background:#ecfdf5; color:#065f46;">벤처인증</span>
           <span style="font-size:12px; color:var(--text-muted);">부산 해운대구</span>
         </div>
-        <div class="case-fund" style="background:#ecfdf5; color:#065f46;">벤처인증 + 성장촉진자금</div>
-        <div class="case-amount" style="color:#065f46;">2억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
-        <p class="case-desc">벤처기업 인증 취득 후 우대 금리 자금 연계, 연구개발비 세액공제</p>
+        <div class="case-fund" style="background:#ecfdf5; color:#065f46;">벤처기업 인증 + 상생성장지원자금</div>
+        <div class="case-amount" style="color:#059669;">2억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">벤처기업 인증 취득 후 우대 금리 자금 연계. 연구개발비 세액공제 적용</p>
       </div>
+
+      <div class="case-card" data-cat="cert">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#ecfdf5; color:#065f46;">이노비즈</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 사상구</span>
+        </div>
+        <div class="case-fund" style="background:#ecfdf5; color:#065f46;">이노비즈 인증 + 혁신성장촉진자금</div>
+        <div class="case-amount" style="color:#059669;">3억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">이노비즈 인증으로 기술혁신형 기업 선정. 우대 금리 3.84% 적용 대출</p>
+      </div>
+
+      <div class="case-card" data-cat="cert">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#ecfdf5; color:#065f46;">메인비즈</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 강서구</span>
+        </div>
+        <div class="case-fund" style="background:#ecfdf5; color:#065f46;">메인비즈 인증 + 민간투자연계 매칭</div>
+        <div class="case-amount" style="color:#059669;">5억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">경영혁신형 중소기업 인증 후 민간투자 유치 및 정책자금 매칭 성공</p>
+      </div>
+
+      <div class="case-card" data-cat="cert">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+          <span class="case-tag" style="background:#ecfdf5; color:#065f46;">ISO인증</span>
+          <span style="font-size:12px; color:var(--text-muted);">부산 기장군</span>
+        </div>
+        <div class="case-fund" style="background:#ecfdf5; color:#065f46;">ISO 9001 + 소공인특화자금</div>
+        <div class="case-amount" style="color:#059669;">1억원 <span style="font-size:14px; color:var(--text-muted); font-weight:400;">수령</span></div>
+        <p class="case-desc">ISO 9001 품질경영 인증 취득으로 대기업 납품 자격 획득. 자금 연계</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -725,6 +869,18 @@
 
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUg5njmDxOWC4892-2XbmhQ0ERBrpqvxSMNp5r4dyYtO6W8a-ZmaXXWfhaFfqHyMwmiA/exec';
+
+  function filterCase(btn, cat) {
+    document.querySelectorAll('.case-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.case-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
 
   function switchTab(btn, tabId) {
     document.querySelectorAll('.fund-tab').forEach(t => t.classList.remove('active'));
